@@ -27,12 +27,9 @@ local GAME_STATES = {
     gameover = 10,
 }
 local game_state = nil
-
-local DAYS = { "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday" }
 local high_score = 0
 local pause_index = 1
 local menu_index = 1
-local bg_music = love.audio.newSource("asset/sound/8_bit_battle.ogg", "stream")
 
 
 
@@ -55,6 +52,7 @@ COLORS = {
     DARK_GRAY = "#5a6988",
     WHITE = "#ffffff",
     LIGHT_BROWN = "#ead4aa",
+    BLUE = "#29adff"
 }
 
 --TODO: Replace places wher I used COLORS
@@ -109,6 +107,7 @@ local input = baton.new {
 }
 
 local pause_img = love.graphics.newImage(PNG_PATH .. "pause.png")
+local ground_img = love.graphics.newImage(PNG_PATH .. "ground.png")
 
 shake_duration = 0
 shake_wait = 0
@@ -132,10 +131,8 @@ all_clocks:add(game_clock)
 all_clocks:add(results_clock)
 
 function love.load()
-    set_bgcolor_from_hex(COLORS.BLACK)
+    set_bgcolor_from_hex(COLORS.BLUE)
 
-    bg_music:setVolume(0.2)
-    bg_music:setLooping(true)
     change_gamestate(GAME_STATES.title)
     change_gamestate(GAME_STATES.game)
 
@@ -270,7 +267,7 @@ function love.draw()
     -- your graphics code here, optimized for fullHD
 
     love.graphics.push("all")
-    set_color_from_hex(PALETTE.NEAR_BLACK)
+    set_color_from_hex(COLORS.BLUE)
     --love.graphics.setColor(love.math.colorFromBytes(0, 0, 0))
     love.graphics.rectangle("fill", 0, 0, 128, 128)
     love.graphics.pop()
@@ -395,6 +392,7 @@ end
 
 
 function draw_game()
+    love.graphics.draw(ground_img, 0, 105)
     for c in table.for_each(cubes) do
         c:draw()
     end

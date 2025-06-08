@@ -2,8 +2,6 @@ Player = {}
 Player.__index = Player
 
 local player_sheet = love.graphics.newImage(PNG_PATH .. "bird-sheet.png")
-
-local sfx_hurt = love.audio.newSource(SFX_PATH .. "player_hurt.wav", "static")
 local death_timer = 0
 
 Signal.register('test123', function()
