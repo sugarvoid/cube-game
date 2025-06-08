@@ -1,0 +1,47 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run Game",
+            "type": "shell",
+            "detail": "Runs the game",
+            "command": "~/bin/love_11.AppImage ${workspaceFolder}",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "close": true
+            }
+        },
+        {
+            "label": "Package Game",
+            "type": "shell",
+            "command": "zip",
+            "args": [
+                "-9",
+                "-r",
+                "down_mail.love",
+                ".",
+                "--exclude",
+                "*.git*",
+                "*.vscode*",
+                "gameplay.mp4",
+                "build.sh",
+                "todo.md",
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "presentation": {
+                "reveal": "silent",
+                "revealProblems": "onProblem",
+                "close": true
+            },
+            "problemMatcher": [],
+            "detail": "Zips the project excluding certain files."
+        }
+    ]
+}

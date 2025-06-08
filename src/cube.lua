@@ -1,0 +1,55 @@
+cubes = {}
+
+Cube = Object:extend()
+
+local cube_sheet = love.graphics.newImage(PNG_PATH .. "cube-sheet.png")
+
+
+local rock_imgs = {
+    love.graphics.newQuad(0, 0, 8, 8, cube_sheet),
+}
+
+function Cube:new(lane)
+    self.y = -60
+    self.w = 8
+    self.h = 8
+    self.img = rock_imgs[math.random(#rock_imgs)]
+    self.speed = speeds[math.random(#speeds)]
+    self.danger_time = 60
+    self.x = lanes[lane][1]
+    self.lane = lane
+    update_lane(lane, true)
+end
+
+function spawn_rock(lane)
+    local r = Cube(lane)
+    table.insert(rocks, r)
+    reset_rock_timer()
+end
+
+function Cube:update()
+    self.y = self.y + self.speed
+    self.danger_time = self.danger_time - 2
+    if self.y >= 130 then
+        update_lane(self.lane, false)
+        table.remove_item(cubes, self)
+    end
+
+    if is_colliding(self, player.hitbox) then
+        logger.info("rock hit player")
+        player:take_damage()
+        update_lane(self.lane, false)
+        table.remove_item(rocks, self)
+    end
+end
+
+function Cube:draw()
+    love.graphics.draw(cube_sheet, self.img, self.x, self.y)
+    if is_debug_on then
+        draw_hitbox(self)
+    end
+end
+
+function reset_rock_timer()
+    next_rock = 140 + math.random(20)
+end
