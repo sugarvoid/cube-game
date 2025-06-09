@@ -8,13 +8,18 @@ Signal.register('test123', function()
   logger.info("player picked up Signal")
 end)
 
+
+-- https://github.com/andriadze/Love2D_Platformer_Example/blob/master/player.lua
+
+
+
 -- TODO: on player reset, chute sprites are not resetting
 function Player.new()
   local p = setmetatable({}, Player)
   p.hitbox = Hitbox(p, 0, 0, 4, 6, 2, 1)
   p.x = nil
   p.y = nil
-  p.w = 7
+  p.w = 8
   p.h = 8
   p.health = nil
   p.speed = 60
@@ -33,6 +38,8 @@ function Player.new()
 
   p:reset()
 
+  world:add(p, p.x, p.y, p.w, p.h)
+
   return p
 end
 
@@ -46,23 +53,38 @@ end
 
 function Player:draw()
   if is_on_screen(self) then
-    love.graphics.draw(player_sheet, self.sprites[1],   self.x + 4, self.y + 1, 0, self.facing_dir, 1, 4, 1)
+    love.graphics.draw(player_sheet, self.sprites[1], self.x + 4, self.y, 0, self.facing_dir, 1, 4, 1)
   end
 end
 
 function Player:update(dt)
-  if self.is_alive then
-   
-      self.x_move_speed = 1
-      self.speed = 60
-  
 
-    if self.is_chute_open then
-      self.speed = math.clamp(-70, self.speed + self.acceleration, 70)
-      self.y = self.y - (self.speed * dt)
-    else
-      self.speed = math.clamp(-80, self.speed + self.acceleration, 80)
-      self.y = self.y + (self.speed * dt)
+  local speed = self.x_move_speed
+  speed = 100
+
+  local dx, dy = 0, 0
+  if love.keyboard.isDown('right') then
+    dx = speed * dt
+  elseif love.keyboard.isDown('left') then
+    dx = -speed * dt
+  end
+  if love.keyboard.isDown('down') then
+    dy = speed * dt
+  elseif love.keyboard.isDown('up') then
+    dy = -speed * dt
+  end
+
+  dy = dy + 1.3
+
+  if dx ~= 0 or dy ~= 0 then
+    local cols
+    self.x, self.y, cols, cols_len = world:move(self, self.x + dx, self.y + dy, playerFilter)
+    for i = 1, cols_len do
+      local col = cols[i]
+      consolePrint(("col.other = %s, col.type = %s, col.normal = %d,%d"):format(col.other, col.type, col.normal.x,
+        col.normal.y))
+        print(("col.other = %s, col.type = %s, col.normal = %d,%d"):format(col.other.name, col.type, col.normal.x,
+        col.normal.y))
     end
   end
 
@@ -100,24 +122,32 @@ function Player:throw_letter()
   end
 end
 
-
 function Player:move(x_dir)
-  
-    if x_dir == "left" then
-      self.x = math.clamp(4, self.x - self.x_move_speed, 116)
-      self.facing_dir = -1
-    elseif x_dir == "right" then
-      self.x = math.clamp(4, self.x + self.x_move_speed, 116)
-      self.facing_dir = 1
-    end
-  
+  if x_dir == "left" then
+    --self.x = math.clamp(4, self.x - self.x_move_speed, 116)
+    self.facing_dir = -1
+  elseif x_dir == "right" then
+    --self.x = math.clamp(4, self.x + self.x_move_speed, 116)
+    self.facing_dir = 1
+  end
 end
-
-
 
 function Player:reset()
   self.x = 60
   self.y = 60
   self.flutter = 3
   self.facing_dir = 1
+end
+
+playerFilter = function(item, other)
+  if other.isCoin then
+    return 'cross'
+  elseif other.isWall then
+    return 'slide'
+  elseif other.isExit then
+    return 'touch'
+  elseif other.isSpring then
+    return 'bounce'
+  end
+  -- else return nil
 end

@@ -53,3 +53,13 @@ end
 function reset_rock_timer()
     next_rock = 140 + math.random(20)
 end
+
+
+local cubeFilter = function(item, other)
+  if     other.isCoin   then return 'cross'
+  elseif other.isWall   then return 'slide'
+  elseif other.isExit   then return 'touch'
+  elseif other.isSpring then return 'bounce'
+  end
+  -- else return nil
+end

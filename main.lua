@@ -7,6 +7,17 @@ baton = require("lib.baton")
 lume = require("lib.lume")
 flux = require("lib.flux")
 anim8 = require("lib.anim8")
+bump = require("lib.bump")
+bump_debug = require("lib.bump_debug")
+
+local cols_len = 0 -- how many collisions are happening
+local consoleBuffer = {}
+local consoleBufferSize = 15
+for i = 1, consoleBufferSize do consoleBuffer[i] = "" end
+function consolePrint(msg)
+    table.remove(consoleBuffer, 1)
+    consoleBuffer[consoleBufferSize] = msg
+end
 
 Signal = require("lib.signal")
 
@@ -31,17 +42,18 @@ local high_score = 0
 local pause_index = 1
 local menu_index = 1
 
+world = bump.newWorld(16)
 
 
 
 all_clocks = {
-    __clocks ={},
-    update=function(self)
+    __clocks = {},
+    update = function(self)
         for c in table.for_each(self.__clocks) do
             c:update()
         end
     end,
-    add=function(self, c)
+    add = function(self, c)
         table.insert(self.__clocks, c)
     end,
 }
@@ -57,38 +69,38 @@ COLORS = {
 
 --TODO: Replace places wher I used COLORS
 PALETTE = {
-    BRICK_RED     = "#be4a2f",
-    BURNT_ORANGE  = "#d77643",
-    PALE_BEIGE    = "#ead4aa",
-    PEACH         = "#e4a672",
-    BROWN         = "#b86f50",
-    DARK_BROWN    = "#733e39",
-    DEEP_PLUM     = "#3e2731",
-    CRIMSON       = "#a22633",
-    RED           = "#e43b44",
-    ORANGE        = "#f77622",
-    GOLDENROD     = "#feae34",
-    LEMON         = "#fee761",
-    LIME_GREEN    = "#63c74d",
-    GREEN         = "#3e8948",
-    FOREST_GREEN  = "#265c42",
-    TEAL          = "#193c3e",
-    ROYAL_BLUE    = "#124e89",
-    SKY_BLUE      = "#0099db",
-    CYAN          = "#2ce8f5",
-    WHITE         = "#ffffff",
-    LIGHT_GRAY    = "#c0cbdc",
-    GRAY_BLUE     = "#8b9bb4",
-    SLATE         = "#5a6988",
-    NAVY_BLUE     = "#3a4466",
-    DARK_NAVY     = "#262b44",
-    NEAR_BLACK    = "#181425",
-    HOT_PINK      = "#ff0044",
-    PURPLE_GRAY   = "#68386c",
-    MAUVE         = "#b55088",
-    PINK          = "#f6757a",
-    TAN           = "#e8b796",
-    TAUPE         = "#c28569"
+    BRICK_RED    = "#be4a2f",
+    BURNT_ORANGE = "#d77643",
+    PALE_BEIGE   = "#ead4aa",
+    PEACH        = "#e4a672",
+    BROWN        = "#b86f50",
+    DARK_BROWN   = "#733e39",
+    DEEP_PLUM    = "#3e2731",
+    CRIMSON      = "#a22633",
+    RED          = "#e43b44",
+    ORANGE       = "#f77622",
+    GOLDENROD    = "#feae34",
+    LEMON        = "#fee761",
+    LIME_GREEN   = "#63c74d",
+    GREEN        = "#3e8948",
+    FOREST_GREEN = "#265c42",
+    TEAL         = "#193c3e",
+    ROYAL_BLUE   = "#124e89",
+    SKY_BLUE     = "#0099db",
+    CYAN         = "#2ce8f5",
+    WHITE        = "#ffffff",
+    LIGHT_GRAY   = "#c0cbdc",
+    GRAY_BLUE    = "#8b9bb4",
+    SLATE        = "#5a6988",
+    NAVY_BLUE    = "#3a4466",
+    DARK_NAVY    = "#262b44",
+    NEAR_BLACK   = "#181425",
+    HOT_PINK     = "#ff0044",
+    PURPLE_GRAY  = "#68386c",
+    MAUVE        = "#b55088",
+    PINK         = "#f6757a",
+    TAN          = "#e8b796",
+    TAUPE        = "#c28569"
 }
 
 local input = baton.new {
@@ -102,7 +114,7 @@ local input = baton.new {
         quit = { 'key:p', 'button:back', 'key:escape' },
         pause = { 'key:return', 'button:start' } },
     --pairs = {
-     --   move = { 'left', 'right', 'up', 'down' } },
+    --   move = { 'left', 'right', 'up', 'down' } },
     joystick = love.joystick.getJoysticks()[1],
 }
 
@@ -113,6 +125,7 @@ shake_duration = 0
 shake_wait = 0
 shake_offset = { x = 0, y = 0 }
 
+require("src.ground")
 require("src.clock")
 require("src.hitbox")
 require("src.functions")
@@ -135,6 +148,8 @@ function love.load()
 
     change_gamestate(GAME_STATES.title)
     change_gamestate(GAME_STATES.game)
+
+
 
     high_score = load_high_score()
 
@@ -223,7 +238,7 @@ function check_inputs()
             player:move("right")
         end
         if input:down 'slam' then
-            
+
         end
     elseif game_state == GAME_STATES.pause then
         if input:pressed('pause') then
@@ -390,7 +405,6 @@ function draw_title()
     love.graphics.pop()
 end
 
-
 function draw_game()
     love.graphics.draw(ground_img, 0, 105)
     for c in table.for_each(cubes) do
@@ -398,8 +412,12 @@ function draw_game()
     end
 
     player:draw()
-end
 
+    drawDebug()
+    drawConsole()
+    drawBox(ground)
+    drawBox(player)
+end
 
 function draw_pause()
     love.graphics.draw(pause_img, -50, 0)
@@ -431,8 +449,6 @@ function is_colliding(rect_a, rect_b)
 end
 
 function start_game()
-
-
     -- TODO: fix player score getting reset after each day
     --reset_game()
     game_clock:start()
@@ -453,8 +469,6 @@ function reset_game()
     player.score = 0
     change_gamestate(GAME_STATES.title)
 end
-
-
 
 function update_game(dt)
     flux.update(dt)
@@ -483,9 +497,6 @@ function update_pause()
 
 end
 
-
-
-
 function table.for_each(_list)
     local i = 0
     return function()
@@ -506,4 +517,45 @@ function load_high_score()
     local score, _ = love.filesystem.read("data.sav")
     score = tonumber(score)
     return score or 0
+end
+
+local groundFilter = function(item, other)
+    if other.isCoin then
+        return 'cross'
+    elseif other.isWall then
+        return 'slide'
+    elseif other.isExit then
+        return 'touch'
+    elseif other.isSpring then
+        return 'bounce'
+    end
+    -- else return nil
+end
+
+
+function drawDebug()
+    bump_debug.draw(world)
+
+    local statistics = ("fps: %d, mem: %dKB, collisions: %d, items: %d"):format(love.timer.getFPS(),
+        collectgarbage("count"), cols_len, world:countItems())
+    love.graphics.setColor(1, 1, 1)
+    love.graphics.printf(statistics, 0, 580, 790, 'right')
+end
+
+function drawConsole()
+    local str = table.concat(consoleBuffer, "\n")
+    for i = 1, consoleBufferSize do
+        love.graphics.setColor(1, 1, 1, i / consoleBufferSize)
+        love.graphics.printf(consoleBuffer[i], 10, 580 - (consoleBufferSize - i) * 12, 790, "left")
+    end
+end
+
+function drawBox(box)
+    love.graphics.push("all")
+    set_color_from_hex(PALETTE.RED)
+    --love.graphics.setColor(r,g,b,0.25)
+    --love.graphics.rectangle("fill", box.x, box.y, box.w, box.h)
+    --love.graphics.setColor(r,g,b)
+    love.graphics.rectangle("line", box.x, box.y, box.w, box.h)
+    love.graphics.pop()
 end
