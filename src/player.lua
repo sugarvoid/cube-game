@@ -21,6 +21,8 @@ function Player.new()
   p.y = nil
   p.w = 8
   p.h = 8
+  p.dx = 0
+  p.dy = 1
   p.health = nil
   p.speed = 60
   p.score = 0
@@ -51,6 +53,12 @@ function Player:add_score(val)
   hud.new_score = self.score + val
 end
 
+function Player:jump()
+  --self.dy = self.dy - 10
+  self.dy = math.clamp(0, self.dy - 1.5, -7)
+  print(self.dy)
+end
+
 function Player:draw()
   if is_on_screen(self) then
     love.graphics.draw(player_sheet, self.sprites[1], self.x + 4, self.y, 0, self.facing_dir, 1, 4, 1)
@@ -58,33 +66,48 @@ function Player:draw()
 end
 
 function Player:update(dt)
-
   local speed = self.x_move_speed
   speed = 100
 
-  local dx, dy = 0, 0
+  self.dx = 0
+  self.dy = 0
+
+  if input:down 'left' then
+    self.dx = -speed * dt
+  end
+  if input:down 'right' then
+    self.dx = speed * dt
+  end
+  if input:down 'jump' then
+    self:jump()
+  end
   if love.keyboard.isDown('right') then
-    dx = speed * dt
+
   elseif love.keyboard.isDown('left') then
-    dx = -speed * dt
+
   end
   if love.keyboard.isDown('down') then
-    dy = speed * dt
+    self.dy = speed * dt
   elseif love.keyboard.isDown('up') then
-    dy = -speed * dt
+
   end
 
-  dy = dy + 1.3
+  --print(self.dy)
 
-  if dx ~= 0 or dy ~= 0 then
+  --if self.dy ~= 0 then
+  self.dy = self.dy + 2
+  --else
+
+  --end
+
+  if self.dx ~= 0 or self.dy ~= 0 then
     local cols
-    self.x, self.y, cols, cols_len = world:move(self, self.x + dx, self.y + dy, playerFilter)
+    self.x, self.y, cols, cols_len = world:move(self, self.x + self.dx, self.y + self.dy, playerFilter)
     for i = 1, cols_len do
       local col = cols[i]
-      consolePrint(("col.other = %s, col.type = %s, col.normal = %d,%d"):format(col.other, col.type, col.normal.x,
-        col.normal.y))
-        print(("col.other = %s, col.type = %s, col.normal = %d,%d"):format(col.other.name, col.type, col.normal.x,
-        col.normal.y))
+      --consolePrint(("col.other = %s, col.type = %s, col.normal = %d,%d"):format(col.other, col.type, col.normal.x,
+      -- col.normal.y))
+      --print(("col.other = %s, col.type = %s, col.normal = %d,%d"):format(col.other.name, col.type, col.normal.x, col.normal.y))
     end
   end
 

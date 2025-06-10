@@ -103,7 +103,7 @@ PALETTE = {
     TAUPE        = "#c28569"
 }
 
-local input = baton.new {
+input = baton.new {
     controls = {
         left = { 'key:left', 'key:a', 'axis:leftx-', 'button:dpleft' },
         right = { 'key:right', 'key:d', 'axis:leftx+', 'button:dpright' },
@@ -228,9 +228,7 @@ function check_inputs()
             is_paused = true
             return
         end
-        if input:pressed 'jump' then
-            player:jump()
-        end
+        
         if input:down 'left' then
             player:move("left")
         end
