@@ -228,7 +228,7 @@ function check_inputs()
             is_paused = true
             return
         end
-        
+
         if input:down 'left' then
             player:move("left")
         end
@@ -329,7 +329,8 @@ function resize(w, h)
     --[[]
     update new translation and scale:
     target rendering resolution
-    ]] --                  --
+    ]]
+       --                  --
     local _w1, _h1 = window.width, window.height
     local _scale = math.min(w / _w1, h / _h1)
     window.translateX, window.translateY, window.scale = (w - _w1 * _scale) / 2, (h - _h1 * _scale) / 2, _scale

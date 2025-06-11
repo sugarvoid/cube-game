@@ -32,6 +32,7 @@ function Player.new()
   p.is_alive = nil
   p.clothing = nil
   p.is_in_tree_zone = false
+  p.is_on_ground = true
 
   p.sprites = {
     love.graphics.newQuad(0, 0, 10, 10, player_sheet),
@@ -55,8 +56,10 @@ end
 
 function Player:jump()
   --self.dy = self.dy - 10
-  self.dy = math.clamp(0, self.dy - 1.5, -7)
-  print(self.dy)
+  if self.is_on_ground then
+    self.is_on_ground = false
+    self.dy = self.dy - 10 --math.clamp(0, self.dy - 1, -30)
+  end
 end
 
 function Player:draw()
@@ -70,7 +73,7 @@ function Player:update(dt)
   speed = 100
 
   self.dx = 0
-  self.dy = 0
+  --self.dy = 0
 
   if input:down 'left' then
     self.dx = -speed * dt
@@ -78,7 +81,7 @@ function Player:update(dt)
   if input:down 'right' then
     self.dx = speed * dt
   end
-  if input:down 'jump' then
+  if input:pressed 'jump' then
     self:jump()
   end
   if love.keyboard.isDown('right') then
@@ -95,7 +98,11 @@ function Player:update(dt)
   --print(self.dy)
 
   --if self.dy ~= 0 then
-  self.dy = self.dy + 2
+  --if not self.is_on_ground then
+  --self.dy = self.dy + 1
+  self.dy = math.clamp(-10, self.dy + 1, 2)
+  --end
+
   --else
 
   --end
@@ -105,11 +112,18 @@ function Player:update(dt)
     self.x, self.y, cols, cols_len = world:move(self, self.x + self.dx, self.y + self.dy, playerFilter)
     for i = 1, cols_len do
       local col = cols[i]
+      if col.other.name == "ground" then
+        self.is_on_ground = true
+        print(col.normal.x, col.normal.y)
+      elseif col.name == "cube" and col.normal.x == 0 and col.normal.y == -1 then -- self:jump()
+        self:jump()
+      end
       --consolePrint(("col.other = %s, col.type = %s, col.normal = %d,%d"):format(col.other, col.type, col.normal.x,
       -- col.normal.y))
       --print(("col.other = %s, col.type = %s, col.normal = %d,%d"):format(col.other.name, col.type, col.normal.x, col.normal.y))
     end
   end
+
 
 
   if self.is_alive then

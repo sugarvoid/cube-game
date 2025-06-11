@@ -5,26 +5,20 @@ Cube = Object:extend()
 local cube_sheet = love.graphics.newImage(PNG_PATH .. "cube-sheet.png")
 
 
-local rock_imgs = {
+local cube_imgs = {
     love.graphics.newQuad(0, 0, 8, 8, cube_sheet),
 }
 
-function Cube:new(lane)
+function Cube:new()
+    self.name = "cube"
     self.y = -60
     self.w = 8
     self.h = 8
-    self.img = rock_imgs[math.random(#rock_imgs)]
-    self.speed = speeds[math.random(#speeds)]
-    self.danger_time = 60
-    self.x = lanes[lane][1]
-    self.lane = lane
-    update_lane(lane, true)
-end
-
-function spawn_rock(lane)
-    local r = Cube(lane)
-    table.insert(rocks, r)
-    reset_rock_timer()
+    self.dy = 0
+    self.dx = 0
+    self.img = cube_imgs[1]
+    self.speed = 20 --  speeds[math.random(#speeds)]
+    world:add(self, self.x, self.y, self.w, self.h)
 end
 
 function Cube:update()
@@ -54,12 +48,15 @@ function reset_rock_timer()
     next_rock = 140 + math.random(20)
 end
 
-
 local cubeFilter = function(item, other)
-  if     other.isCoin   then return 'cross'
-  elseif other.isWall   then return 'slide'
-  elseif other.isExit   then return 'touch'
-  elseif other.isSpring then return 'bounce'
-  end
-  -- else return nil
+    if other.isCoin then
+        return 'cross'
+    elseif other.isWall then
+        return 'slide'
+    elseif other.isExit then
+        return 'touch'
+    elseif other.isSpring then
+        return 'bounce'
+    end
+    -- else return nil
 end
