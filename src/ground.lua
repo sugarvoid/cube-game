@@ -7,8 +7,8 @@ ground = {
     isWall = true,
 }
 
-ground_left = {
-    name = "ground_lef",
+wall_left = {
+    name = "wall",
     x = 0,
     y = 113 - 8,
     h = 8,
@@ -16,9 +16,9 @@ ground_left = {
     isWall = true,
 }
 
-ground_right = {
-    name = "ground_right",
-    x = 100,
+wall_right = {
+    name = "wall",
+    x = 120,
     y = 113 - 8,
     h = 8,
     w = 8,
@@ -26,5 +26,5 @@ ground_right = {
 }
 
 world:add(ground, ground.x, ground.y, ground.w, ground.h)
-world:add(ground_left, ground_left.x, ground_left.y, ground_left.w, ground_left.h)
-world:add(ground_right, ground_right.x, ground_right.y, ground_right.w, ground_right.h)
+world:add(wall_left, wall_left.x, wall_left.y, wall_left.w, wall_left.h)
+world:add(wall_right, wall_right.x, wall_right.y, wall_right.w, wall_right.h)

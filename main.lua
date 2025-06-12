@@ -220,7 +220,7 @@ function love.update(dt)
 
     --print((collectgarbage('count') / 1024))
     input:update()
-    print_mem()
+    --print_mem()
 end
 
 function check_inputs()
@@ -418,8 +418,8 @@ function draw_game()
     drawDebug()
     drawConsole()
     drawBox(ground)
-    drawBox(ground_left)
-    drawBox(ground_right)
+    drawBox(wall_left)
+    drawBox(wall_right)
     drawBox(player)
     for c in table.for_each(cubes) do
         drawBox(c)

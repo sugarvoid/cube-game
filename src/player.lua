@@ -129,7 +129,7 @@ function Player:update(dt)
       elseif col.other.name == "cube" and col.normal.x == 0 and col.normal.y == -1 then -- self:jump()
         self.is_on_ground = true
         self:jump("cube")
-        print("player on cube")
+        col.other:on_player_bop()
       end
       --consolePrint(("col.other = %s, col.type = %s, col.normal = %d,%d"):format(col.other, col.type, col.normal.x,
       -- col.normal.y))
@@ -196,6 +196,8 @@ playerFilter = function(item, other)
     return 'slide'
   elseif other.name == "cube" then
     return 'slide'
+  elseif other.name == "wall" then
+    return 'touch'
   elseif other.isSpring then
     return 'bounce'
   end

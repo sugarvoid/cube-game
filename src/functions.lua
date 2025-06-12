@@ -90,5 +90,5 @@ function play_sound(s)
 end
 
 function print_mem()
-    print('Memory actually used (in kB): ' .. collectgarbage('count') / 1024)
+    print('Memory used: ' .. string.format("%.2f", collectgarbage('count') / 1024) .. " mb")
 end
