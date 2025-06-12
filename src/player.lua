@@ -36,6 +36,7 @@ function Player.new()
   p.clothing        = nil
   p.is_in_tree_zone = false
   p.is_on_ground    = true
+  p.flutter         = 100
 
   p.sprites         = {
     love.graphics.newQuad(0, 0, 10, 10, player_sheet),
@@ -65,6 +66,7 @@ function Player:jump(kind)
       self.dy = self.dy - 11 --math.clamp(0, self.dy - 1, -30)
     end
   elseif kind == "cube" then
+    shake_duration = 0.05
     self.is_on_ground = false
     self.dy = self.dy - 9 --math.clamp(0, self.dy - 1, -30)
   end
@@ -122,6 +124,7 @@ function Player:update(dt)
       local col = cols[i]
       if col.other.name == "ground" then
         self.is_on_ground = true
+
         --print(col.normal.x, col.normal.y)
       elseif col.other.name == "cube" and col.normal.x == 0 and col.normal.y == -1 then -- self:jump()
         self.is_on_ground = true

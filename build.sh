@@ -1,5 +1,5 @@
 #!/bin/bash
-zip -9 -r down_mail.love . \
+zip -9 -r cube_game.love . \
     --exclude '*.git*' \
     '*.vscode*' \
     'gameplay.mp4'\

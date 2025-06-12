@@ -164,7 +164,7 @@ function love.load()
 
     math.randomseed(os.time())
     font = love.graphics.newFont("asset/font/mago2.ttf", 32)
-    font_hud = love.graphics.newFont("asset/font/mago2.ttf", 64)
+    font_hud = love.graphics.newFont("asset/font/PICO-8.ttf", 64)
     font:setFilter("nearest")
     font_hud:setFilter("nearest")
 
@@ -574,6 +574,6 @@ function draw_hud()
     --love.graphics.rectangle("fill", 12, 120, 100, 20)
     --set_color_from_hex(COLORS.BLACK)
     love.graphics.setFont(font_hud)
-    love.graphics.print("Score:" .. player.score, 10, 2, 0, 0.2, 0.2)
+    love.graphics.print("Score:" .. player.score, 10, 2, 0, 0.1, 0.1)
     love.graphics.pop()
 end
