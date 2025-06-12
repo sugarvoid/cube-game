@@ -4,10 +4,10 @@ hud = {
     draw = function()
         love.graphics.push("all")
         set_color_from_hex(COLORS.BLACK)
-        love.graphics.rectangle("fill", 12, 120, 100, 20)
-        set_color_from_hex(COLORS.WHITE)
+        --love.graphics.rectangle("fill", 12, 120, 100, 20)
+        --set_color_from_hex(COLORS.BLACK)
         love.graphics.setFont(font_hud)
-        love.graphics.print("Score:" .. player.score, 10, 118, 0, 0.2, 0.2)
+        love.graphics.print("Score:" .. player.score, 10, 2, 0, 0.2, 0.2)
         love.graphics.pop()
     end,
     reset = function(self)

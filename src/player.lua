@@ -15,26 +15,29 @@ end)
 
 -- TODO: on player reset, chute sprites are not resetting
 function Player.new()
-  local p = setmetatable({}, Player)
-  p.hitbox = Hitbox(p, 0, 0, 4, 6, 2, 1)
-  p.x = nil
-  p.y = nil
-  p.w = 8
-  p.h = 8
-  p.dx = 0
-  p.dy = 1
-  p.health = nil
-  p.speed = 60
-  p.score = 0
-  p.x_move_speed = 1
-  p.acceleration = 10
-  p.health = nil
-  p.is_alive = nil
-  p.clothing = nil
+  local p           = setmetatable({}, Player)
+  p.hitbox          = Hitbox(p, 0, 0, 4, 6, 2, 1)
+  p.cubeFilter      = true
+  p.name            = "player"
+  p.x               = nil
+  p.y               = nil
+  p.w               = 8
+  p.h               = 8
+  p.dx              = 0
+  p.dy              = 1
+  p.health          = nil
+  p.speed           = 60
+  p.score           = 0
+  p.jumps           = 1
+  p.x_move_speed    = 1
+  p.acceleration    = 10
+  p.health          = nil
+  p.is_alive        = nil
+  p.clothing        = nil
   p.is_in_tree_zone = false
-  p.is_on_ground = true
+  p.is_on_ground    = true
 
-  p.sprites = {
+  p.sprites         = {
     love.graphics.newQuad(0, 0, 10, 10, player_sheet),
     love.graphics.newQuad(8, 0, 8, 8, player_sheet),
   }
@@ -54,11 +57,16 @@ function Player:add_score(val)
   hud.new_score = self.score + val
 end
 
-function Player:jump()
+function Player:jump(kind)
   --self.dy = self.dy - 10
-  if self.is_on_ground then
+  if kind == "jump" then
+    if self.is_on_ground then
+      self.is_on_ground = false
+      self.dy = self.dy - 11 --math.clamp(0, self.dy - 1, -30)
+    end
+  elseif kind == "cube" then
     self.is_on_ground = false
-    self.dy = self.dy - 10 --math.clamp(0, self.dy - 1, -30)
+    self.dy = self.dy - 9 --math.clamp(0, self.dy - 1, -30)
   end
 end
 
@@ -82,7 +90,7 @@ function Player:update(dt)
     self.dx = speed * dt
   end
   if input:pressed 'jump' then
-    self:jump()
+    self:jump("jump")
   end
   if love.keyboard.isDown('right') then
 
@@ -114,9 +122,11 @@ function Player:update(dt)
       local col = cols[i]
       if col.other.name == "ground" then
         self.is_on_ground = true
-        print(col.normal.x, col.normal.y)
-      elseif col.name == "cube" and col.normal.x == 0 and col.normal.y == -1 then -- self:jump()
-        self:jump()
+        --print(col.normal.x, col.normal.y)
+      elseif col.other.name == "cube" and col.normal.x == 0 and col.normal.y == -1 then -- self:jump()
+        self.is_on_ground = true
+        self:jump("cube")
+        print("player on cube")
       end
       --consolePrint(("col.other = %s, col.type = %s, col.normal = %d,%d"):format(col.other, col.type, col.normal.x,
       -- col.normal.y))
@@ -177,12 +187,12 @@ function Player:reset()
 end
 
 playerFilter = function(item, other)
-  if other.isCoin then
-    return 'cross'
-  elseif other.isWall then
+  --if other.isCoin then
+  --return 'cross'
+  if other.name == "ground" then
     return 'slide'
-  elseif other.isExit then
-    return 'touch'
+  elseif other.name == "cube" then
+    return 'slide'
   elseif other.isSpring then
     return 'bounce'
   end

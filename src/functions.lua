@@ -74,19 +74,21 @@ function rnd(a)
     return math.random() * a
 end
 
-
 ---comment
 ---@param t table
----@return any  
+---@return any
 function get_random_item(t)
-    a=a or 1
-    return t[ math.random( #t ) ]
-   end
+    a = a or 1
+    return t[math.random(#t)]
+end
 
-
-   ---Play a sound, even if one is playing
-   ---@param s love.audio.Source
+---Play a sound, even if one is playing
+---@param s love.audio.Source
 function play_sound(s)
     local _s = s:clone()
     _s:play()
+end
+
+function print_mem()
+    print('Memory actually used (in kB): ' .. collectgarbage('count') / 1024)
 end

@@ -132,7 +132,7 @@ require("src.functions")
 require("lib.timer")
 require("src.player")
 require("src.cube")
-require("src.hud")
+
 
 
 local screen_rect = { x = 0, y = 0, w = 128, h = 128 }
@@ -144,7 +144,7 @@ all_clocks:add(game_clock)
 all_clocks:add(results_clock)
 
 function love.load()
-    set_bgcolor_from_hex(COLORS.BLUE)
+    set_bgcolor_from_hex(COLORS.BLACK)
 
     change_gamestate(GAME_STATES.title)
     change_gamestate(GAME_STATES.game)
@@ -175,6 +175,8 @@ function love.load()
     width, height = love.graphics.getDimensions()
     love.window.setMode(width, height, { resizable = true, borderless = false })
     resize(width, height) -- update new translation and scale
+
+    Cube()
 end
 
 function love.quit()
@@ -186,7 +188,7 @@ function love.quit()
 end
 
 function love.update(dt)
-    dt = math.min(dt, 1 / 60)
+    -- dt = math.min(dt, 1 / 60)
     all_clocks:update()
     --game_clock:update()
     check_inputs()
@@ -218,6 +220,7 @@ function love.update(dt)
 
     --print((collectgarbage('count') / 1024))
     input:update()
+    print_mem()
 end
 
 function check_inputs()
@@ -303,7 +306,7 @@ function love.draw()
 
     if game_state == GAME_STATES.game then
         draw_game()
-        hud:draw()
+        --hud:draw()
     end
 
     if game_state == GAME_STATES.gameover then
@@ -330,7 +333,7 @@ function resize(w, h)
     update new translation and scale:
     target rendering resolution
     ]]
-       --                  --
+    --                  --
     local _w1, _h1 = window.width, window.height
     local _scale = math.min(w / _w1, h / _h1)
     window.translateX, window.translateY, window.scale = (w - _w1 * _scale) / 2, (h - _h1 * _scale) / 2, _scale
@@ -415,7 +418,13 @@ function draw_game()
     drawDebug()
     drawConsole()
     drawBox(ground)
+    drawBox(ground_left)
+    drawBox(ground_right)
     drawBox(player)
+    for c in table.for_each(cubes) do
+        drawBox(c)
+    end
+    draw_hud()
 end
 
 function draw_pause()
@@ -472,7 +481,7 @@ end
 function update_game(dt)
     flux.update(dt)
 
-    hud:update()
+    --hud:update()
 
     --results_clock:update(
 
@@ -556,5 +565,15 @@ function drawBox(box)
     --love.graphics.rectangle("fill", box.x, box.y, box.w, box.h)
     --love.graphics.setColor(r,g,b)
     love.graphics.rectangle("line", box.x, box.y, box.w, box.h)
+    love.graphics.pop()
+end
+
+function draw_hud()
+    love.graphics.push("all")
+    set_color_from_hex(COLORS.BLACK)
+    --love.graphics.rectangle("fill", 12, 120, 100, 20)
+    --set_color_from_hex(COLORS.BLACK)
+    love.graphics.setFont(font_hud)
+    love.graphics.print("Score:" .. player.score, 10, 2, 0, 0.2, 0.2)
     love.graphics.pop()
 end
