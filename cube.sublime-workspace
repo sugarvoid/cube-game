@@ -1,0 +1,696 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"dr",
+				"draw_hud()"
+			],
+			[
+				"func",
+				"function ()"
+			],
+			[
+				"prin",
+				"print_mem()"
+			],
+			[
+				"el",
+				"elseif .. then"
+			],
+			[
+				"sli",
+				"slide"
+			],
+			[
+				"cu",
+				"Cube"
+			],
+			[
+				"is_c",
+				"is_cube"
+			],
+			[
+				"fun",
+				"function ()"
+			],
+			[
+				"ad",
+				"add(item, x, y, w, h)"
+			],
+			[
+				"e",
+				"elseif .. then"
+			],
+			[
+				"is",
+				"is_on_ground"
+			],
+			[
+				"is_on",
+				"is_on_ground"
+			],
+			[
+				"x",
+				"xmom"
+			],
+			[
+				"g",
+				"game_running"
+			],
+			[
+				"c",
+				"current_a"
+			],
+			[
+				"b",
+				"b_idx"
+			],
+			[
+				"in",
+				"input"
+			],
+			[
+				"all_bu",
+				"all_buildings"
+			],
+			[
+				"funct",
+				"function\tfunction"
+			],
+			[
+				"functi",
+				"function\tfunction"
+			],
+			[
+				"re",
+				"recticle"
+			],
+			[
+				"se",
+				"set_draw_target"
+			],
+			[
+				"p",
+				"p8_print"
+			],
+			[
+				"sp",
+				"spr_2"
+			],
+			[
+				"hit",
+				"hitbox"
+			],
+			[
+				"mo",
+				"move_timer"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "src/player.lua",
+			"settings":
+			{
+				"buffer_size": 4620,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			},
+			"undo_stack":
+			[
+				[
+					3,
+					1,
+					"insert",
+					{
+						"characters": "\nlove."
+					},
+					"BgAAAJ8HAAAAAAAAogcAAAAAAAAAAAAAogcAAAAAAACjBwAAAAAAAAAAAACjBwAAAAAAAKQHAAAAAAAAAAAAAKQHAAAAAAAApQcAAAAAAAAAAAAApQcAAAAAAACmBwAAAAAAAAAAAACmBwAAAAAAAKcHAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAnwcAAAAAAACfBwAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					41,
+					1,
+					"insert",
+					{
+						"characters": "p"
+					},
+					"AQAAAKcHAAAAAAAAqAcAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAApwcAAAAAAACnBwAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					42,
+					1,
+					"insert_completion",
+					{
+						"completion": "lsp_select_completion {\"index\":19,\"session_name\":\"LSP-lua\"}",
+						"format": "command",
+						"keep_prefix": false,
+						"must_insert": false,
+						"trigger": "physics"
+					},
+					"AgAAAKcHAAAAAAAApwcAAAAAAAABAAAAcKcHAAAAAAAArgcAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAqAcAAAAAAACoBwAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					43,
+					1,
+					"insert",
+					{
+						"characters": "."
+					},
+					"AQAAAK4HAAAAAAAArwcAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAArgcAAAAAAACuBwAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					86,
+					13,
+					"left_delete",
+					null,
+					"DQAAAK4HAAAAAAAArgcAAAAAAAABAAAALq0HAAAAAAAArQcAAAAAAAABAAAAc6wHAAAAAAAArAcAAAAAAAABAAAAY6sHAAAAAAAAqwcAAAAAAAABAAAAaaoHAAAAAAAAqgcAAAAAAAABAAAAc6kHAAAAAAAAqQcAAAAAAAABAAAAeagHAAAAAAAAqAcAAAAAAAABAAAAaKcHAAAAAAAApwcAAAAAAAABAAAAcKYHAAAAAAAApgcAAAAAAAABAAAALqUHAAAAAAAApQcAAAAAAAABAAAAZaQHAAAAAAAApAcAAAAAAAABAAAAdqMHAAAAAAAAowcAAAAAAAABAAAAb6IHAAAAAAAAogcAAAAAAAABAAAAbA",
+					"AQAAAAAAAAABAAAArwcAAAAAAACvBwAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					87,
+					2,
+					"left_delete",
+					null,
+					"AgAAAKAHAAAAAAAAoAcAAAAAAAACAAAAICCfBwAAAAAAAJ8HAAAAAAAAAQAAAAo",
+					"AQAAAAAAAAABAAAAogcAAAAAAACiBwAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					89,
+					1,
+					"lsp_apply_document_edit",
+					{
+						"changes":
+						[
+							{
+								"newText": "Player = {}\nPlayer.__index = Player\n\nlocal player_sheet = love.graphics.newImage(PNG_PATH .. \"bird-sheet.png\")\nlocal death_timer = 0\n\nSignal.register('test123', function()\n  logger.info(\"player picked up Signal\")\nend)\n\n\n-- https://github.com/andriadze/Love2D_Platformer_Example/blob/master/player.lua\n\n\n\n-- TODO: on player reset, chute sprites are not resetting\nfunction Player.new()\n  local p           = setmetatable({}, Player)\n  p.hitbox          = Hitbox(p, 0, 0, 4, 6, 2, 1)\n  p.cubeFilter      = true\n  p.name            = \"player\"\n  p.x               = nil\n  p.y               = nil\n  p.w               = 8\n  p.h               = 8\n  p.dx              = 0\n  p.dy              = 1\n  p.health          = nil\n  p.speed           = 60\n  p.score           = 0\n  p.jumps           = 1\n  p.x_move_speed    = 1\n  p.acceleration    = 10\n  p.health          = nil\n  p.is_alive        = nil\n  p.clothing        = nil\n  p.is_in_tree_zone = false\n  p.is_on_ground    = true\n  p.flutter         = 100\n\n  p.sprites         = {\n    love.graphics.newQuad(0, 0, 10, 10, player_sheet),\n    love.graphics.newQuad(8, 0, 8, 8, player_sheet),\n  }\n\n  p:reset()\n\n  world:add(p, p.x, p.y, p.w, p.h)\n\n  return p\nend\n\nfunction Player:get_cash()\n  return string.format(\"%.2f\", self._cash)\nend\n\nfunction Player:add_score(val)\n  hud.new_score = self.score + val\nend\n\nfunction Player:jump(kind)\n  --self.dy = self.dy - 10\n  if kind == \"jump\" then\n    if self.is_on_ground then\n      self.is_on_ground = false\n      self.dy = self.dy - 11 --math.clamp(0, self.dy - 1, -30)\n    end\n  elseif kind == \"cube\" then\n    shake_duration = 0.05\n    self.is_on_ground = false\n    self.dy = self.dy - 9 --math.clamp(0, self.dy - 1, -30)\n  end\nend\n\nfunction Player:draw()\n  if is_on_screen(self) then\n    love.graphics.draw(player_sheet, self.sprites[1], self.x + 4, self.y, 0, self.facing_dir, 1, 4, 1)\n  end\nend\n\nfunction Player:update(dt)\n  local speed = self.x_move_speed\n  speed = 100\n\n  self.dx = 0\n  --self.dy = 0\n\n  if input:down 'left' then\n    self.dx = -speed * dt\n  end\n  if input:down 'right' then\n    self.dx = speed * dt\n  end\n  if input:pressed 'jump' then\n    self:jump(\"jump\")\n  end\n  if love.keyboard.isDown('right') then\n\n  elseif love.keyboard.isDown('left') then\n\n  end\n  if love.keyboard.isDown('down') then\n    self.dy = speed * dt\n  elseif love.keyboard.isDown('up') then\n\n  end\n\n  --print(self.dy)\n\n  --if self.dy ~= 0 then\n  --if not self.is_on_ground then\n  --self.dy = self.dy + 1\n  self.dy = math.clamp(-10, self.dy + 1, 2)\n  --end\n\n  --else\n\n  --end\n\n  if self.dx ~= 0 or self.dy ~= 0 then\n    local cols\n    self.x, self.y, cols, cols_len = world:move(self, self.x + self.dx, self.y + self.dy, playerFilter)\n    for i = 1, cols_len do\n      local col = cols[i]\n      if col.other.name == \"ground\" then\n        self.is_on_ground = true\n\n        --print(col.normal.x, col.normal.y)\n      elseif col.other.name == \"cube\" and col.normal.x == 0 and col.normal.y == -1 then -- self:jump()\n        self.is_on_ground = true\n        self:jump(\"cube\")\n        col.other:on_player_bop()\n      end\n      --consolePrint((\"col.other = %s, col.type = %s, col.normal = %d,%d\"):format(col.other, col.type, col.normal.x,\n      -- col.normal.y))\n      --print((\"col.other = %s, col.type = %s, col.normal = %d,%d\"):format(col.other.name, col.type, col.normal.x, col.normal.y))\n    end\n  end\n\n\n\n  if self.is_alive then\n    for m in table.for_each(cubes) do\n      if is_colliding(m, self.hitbox) then\n        m:take_damage()\n        shake_duration = 0.3\n      end\n    end\n  end\n\n\n  if self.y == 150 then\n    death_timer = death_timer + 1\n    if death_timer >= 60 then\n      goto_gameover(\"fell\")\n    end\n  end\n\n  self.hitbox:update()\nend\n\nfunction Player:throw_letter()\n  if self.is_alive then\n    self.throw_anim = 10\n    if self.letters > 0 and not show_results then\n      local _new_letter = Letter(self.x, self.y - 2, self.facing_dir)\n      table.insert(all_letters, _new_letter)\n      self.letters = self.letters - 1\n    else\n      --TODO: Spawn something other than letter?\n    end\n  end\nend\n\nfunction Player:move(x_dir)\n  if x_dir == \"left\" then\n    --self.x = math.clamp(4, self.x - self.x_move_speed, 116)\n    self.facing_dir = -1\n  elseif x_dir == \"right\" then\n    --self.x = math.clamp(4, self.x + self.x_move_speed, 116)\n    self.facing_dir = 1\n  end\nend\n\nfunction Player:reset()\n  self.x = 60\n  self.y = 60\n  self.flutter = 3\n  self.facing_dir = 1\nend\n\nplayerFilter = function(item, other)\n  --if other.isCoin then\n  --return 'cross'\n  if other.name == \"ground\" then\n    return 'slide'\n  elseif other.name == \"cube\" then\n    return 'slide'\n  elseif other.name == \"wall\" then\n    return 'slide'\n  end\n  -- else return nil\nend\n",
+								"range":
+								{
+									"end":
+									{
+										"character": 0,
+										"line": 203
+									},
+									"start":
+									{
+										"character": 0,
+										"line": 0
+									}
+								}
+							}
+						],
+						"process_placeholders": false,
+						"required_view_version": null
+					},
+					"AQAAAAAAAAAAAAAAZhIAAAAAAABmEgAAUGxheWVyID0ge30KUGxheWVyLl9faW5kZXggPSBQbGF5ZXIKCmxvY2FsIHBsYXllcl9zaGVldCA9IGxvdmUuZ3JhcGhpY3MubmV3SW1hZ2UoUE5HX1BBVEggLi4gImJpcmQtc2hlZXQucG5nIikKbG9jYWwgZGVhdGhfdGltZXIgPSAwCgpTaWduYWwucmVnaXN0ZXIoJ3Rlc3QxMjMnLCBmdW5jdGlvbigpCiAgbG9nZ2VyLmluZm8oInBsYXllciBwaWNrZWQgdXAgU2lnbmFsIikKZW5kKQoKCi0tIGh0dHBzOi8vZ2l0aHViLmNvbS9hbmRyaWFkemUvTG92ZTJEX1BsYXRmb3JtZXJfRXhhbXBsZS9ibG9iL21hc3Rlci9wbGF5ZXIubHVhCgoKCi0tIFRPRE86IG9uIHBsYXllciByZXNldCwgY2h1dGUgc3ByaXRlcyBhcmUgbm90IHJlc2V0dGluZwpmdW5jdGlvbiBQbGF5ZXIubmV3KCkKICBsb2NhbCBwICAgICAgICAgICA9IHNldG1ldGF0YWJsZSh7fSwgUGxheWVyKQogIHAuaGl0Ym94ICAgICAgICAgID0gSGl0Ym94KHAsIDAsIDAsIDQsIDYsIDIsIDEpCiAgcC5jdWJlRmlsdGVyICAgICAgPSB0cnVlCiAgcC5uYW1lICAgICAgICAgICAgPSAicGxheWVyIgogIHAueCAgICAgICAgICAgICAgID0gbmlsCiAgcC55ICAgICAgICAgICAgICAgPSBuaWwKICBwLncgICAgICAgICAgICAgICA9IDgKICBwLmggICAgICAgICAgICAgICA9IDgKICBwLmR4ICAgICAgICAgICAgICA9IDAKICBwLmR5ICAgICAgICAgICAgICA9IDEKICBwLmhlYWx0aCAgICAgICAgICA9IG5pbAogIHAuc3BlZWQgICAgICAgICAgID0gNjAKICBwLnNjb3JlICAgICAgICAgICA9IDAKICBwLmp1bXBzICAgICAgICAgICA9IDEKICBwLnhfbW92ZV9zcGVlZCAgICA9IDEKICBwLmFjY2VsZXJhdGlvbiAgICA9IDEwCiAgcC5oZWFsdGggICAgICAgICAgPSBuaWwKICBwLmlzX2FsaXZlICAgICAgICA9IG5pbAogIHAuY2xvdGhpbmcgICAgICAgID0gbmlsCiAgcC5pc19pbl90cmVlX3pvbmUgPSBmYWxzZQogIHAuaXNfb25fZ3JvdW5kICAgID0gdHJ1ZQogIHAuZmx1dHRlciAgICAgICAgID0gMTAwCgogIHAuc3ByaXRlcyAgICAgICAgID0gewogICAgbG92ZS5ncmFwaGljcy5uZXdRdWFkKDAsIDAsIDEwLCAxMCwgcGxheWVyX3NoZWV0KSwKICAgIGxvdmUuZ3JhcGhpY3MubmV3UXVhZCg4LCAwLCA4LCA4LCBwbGF5ZXJfc2hlZXQpLAogIH0KCiAgcDpyZXNldCgpCgogIHdvcmxkOmFkZChwLCBwLngsIHAueSwgcC53LCBwLmgpCgogIHJldHVybiBwCmVuZAoKZnVuY3Rpb24gUGxheWVyOmdldF9jYXNoKCkKICByZXR1cm4gc3RyaW5nLmZvcm1hdCgiJS4yZiIsIHNlbGYuX2Nhc2gpCmVuZAoKZnVuY3Rpb24gUGxheWVyOmFkZF9zY29yZSh2YWwpCiAgaHVkLm5ld19zY29yZSA9IHNlbGYuc2NvcmUgKyB2YWwKZW5kCgpmdW5jdGlvbiBQbGF5ZXI6anVtcChraW5kKQogIC0tc2VsZi5keSA9IHNlbGYuZHkgLSAxMAogIGlmIGtpbmQgPT0gImp1bXAiIHRoZW4KICAgIGlmIHNlbGYuaXNfb25fZ3JvdW5kIHRoZW4KICAgICAgc2VsZi5pc19vbl9ncm91bmQgPSBmYWxzZQogICAgICBzZWxmLmR5ID0gc2VsZi5keSAtIDExIC0tbWF0aC5jbGFtcCgwLCBzZWxmLmR5IC0gMSwgLTMwKQogICAgZW5kCiAgZWxzZWlmIGtpbmQgPT0gImN1YmUiIHRoZW4KICAgIHNoYWtlX2R1cmF0aW9uID0gMC4wNQogICAgc2VsZi5pc19vbl9ncm91bmQgPSBmYWxzZQogICAgc2VsZi5keSA9IHNlbGYuZHkgLSA5IC0tbWF0aC5jbGFtcCgwLCBzZWxmLmR5IC0gMSwgLTMwKQogIGVuZAplbmQKCmZ1bmN0aW9uIFBsYXllcjpkcmF3KCkKICBpZiBpc19vbl9zY3JlZW4oc2VsZikgdGhlbgogICAgbG92ZS5ncmFwaGljcy5kcmF3KHBsYXllcl9zaGVldCwgc2VsZi5zcHJpdGVzWzFdLCBzZWxmLnggKyA0LCBzZWxmLnksIDAsIHNlbGYuZmFjaW5nX2RpciwgMSwgNCwgMSkKICBlbmQKZW5kCgpmdW5jdGlvbiBQbGF5ZXI6dXBkYXRlKGR0KQogIGxvY2FsIHNwZWVkID0gc2VsZi54X21vdmVfc3BlZWQKICBzcGVlZCA9IDEwMAoKICBzZWxmLmR4ID0gMAogIC0tc2VsZi5keSA9IDAKCiAgaWYgaW5wdXQ6ZG93biAnbGVmdCcgdGhlbgogICAgc2VsZi5keCA9IC1zcGVlZCAqIGR0CiAgZW5kCiAgaWYgaW5wdXQ6ZG93biAncmlnaHQnIHRoZW4KICAgIHNlbGYuZHggPSBzcGVlZCAqIGR0CiAgZW5kCiAgaWYgaW5wdXQ6cHJlc3NlZCAnanVtcCcgdGhlbgogICAgc2VsZjpqdW1wKCJqdW1wIikKICBlbmQKICBpZiBsb3ZlLmtleWJvYXJkLmlzRG93bigncmlnaHQnKSB0aGVuCgogIGVsc2VpZiBsb3ZlLmtleWJvYXJkLmlzRG93bignbGVmdCcpIHRoZW4KCiAgZW5kCiAgaWYgbG92ZS5rZXlib2FyZC5pc0Rvd24oJ2Rvd24nKSB0aGVuCiAgICBzZWxmLmR5ID0gc3BlZWQgKiBkdAogIGVsc2VpZiBsb3ZlLmtleWJvYXJkLmlzRG93bigndXAnKSB0aGVuCgogIGVuZAoKICAtLXByaW50KHNlbGYuZHkpCgogIC0taWYgc2VsZi5keSB+PSAwIHRoZW4KICAtLWlmIG5vdCBzZWxmLmlzX29uX2dyb3VuZCB0aGVuCiAgLS1zZWxmLmR5ID0gc2VsZi5keSArIDEKICBzZWxmLmR5ID0gbWF0aC5jbGFtcCgtMTAsIHNlbGYuZHkgKyAxLCAyKQogIC0tZW5kCgogIC0tZWxzZQoKICAtLWVuZAoKICBpZiBzZWxmLmR4IH49IDAgb3Igc2VsZi5keSB+PSAwIHRoZW4KICAgIGxvY2FsIGNvbHMKICAgIHNlbGYueCwgc2VsZi55LCBjb2xzLCBjb2xzX2xlbiA9IHdvcmxkOm1vdmUoc2VsZiwgc2VsZi54ICsgc2VsZi5keCwgc2VsZi55ICsgc2VsZi5keSwgcGxheWVyRmlsdGVyKQogICAgZm9yIGkgPSAxLCBjb2xzX2xlbiBkbwogICAgICBsb2NhbCBjb2wgPSBjb2xzW2ldCiAgICAgIGlmIGNvbC5vdGhlci5uYW1lID09ICJncm91bmQiIHRoZW4KICAgICAgICBzZWxmLmlzX29uX2dyb3VuZCA9IHRydWUKCiAgICAgICAgLS1wcmludChjb2wubm9ybWFsLngsIGNvbC5ub3JtYWwueSkKICAgICAgZWxzZWlmIGNvbC5vdGhlci5uYW1lID09ICJjdWJlIiBhbmQgY29sLm5vcm1hbC54ID09IDAgYW5kIGNvbC5ub3JtYWwueSA9PSAtMSB0aGVuIC0tIHNlbGY6anVtcCgpCiAgICAgICAgc2VsZi5pc19vbl9ncm91bmQgPSB0cnVlCiAgICAgICAgc2VsZjpqdW1wKCJjdWJlIikKICAgICAgICBjb2wub3RoZXI6b25fcGxheWVyX2JvcCgpCiAgICAgIGVuZAogICAgICAtLWNvbnNvbGVQcmludCgoImNvbC5vdGhlciA9ICVzLCBjb2wudHlwZSA9ICVzLCBjb2wubm9ybWFsID0gJWQsJWQiKTpmb3JtYXQoY29sLm90aGVyLCBjb2wudHlwZSwgY29sLm5vcm1hbC54LAogICAgICAtLSBjb2wubm9ybWFsLnkpKQogICAgICAtLXByaW50KCgiY29sLm90aGVyID0gJXMsIGNvbC50eXBlID0gJXMsIGNvbC5ub3JtYWwgPSAlZCwlZCIpOmZvcm1hdChjb2wub3RoZXIubmFtZSwgY29sLnR5cGUsIGNvbC5ub3JtYWwueCwgY29sLm5vcm1hbC55KSkKICAgIGVuZAogIGVuZAoKCgogIGlmIHNlbGYuaXNfYWxpdmUgdGhlbgogICAgZm9yIG0gaW4gdGFibGUuZm9yX2VhY2goY3ViZXMpIGRvCiAgICAgIGlmIGlzX2NvbGxpZGluZyhtLCBzZWxmLmhpdGJveCkgdGhlbgogICAgICAgIG06dGFrZV9kYW1hZ2UoKQogICAgICAgIHNoYWtlX2R1cmF0aW9uID0gMC4zCiAgICAgIGVuZAogICAgZW5kCiAgZW5kCgoKICBpZiBzZWxmLnkgPT0gMTUwIHRoZW4KICAgIGRlYXRoX3RpbWVyID0gZGVhdGhfdGltZXIgKyAxCiAgICBpZiBkZWF0aF90aW1lciA+PSA2MCB0aGVuCiAgICAgIGdvdG9fZ2FtZW92ZXIoImZlbGwiKQogICAgZW5kCiAgZW5kCgogIHNlbGYuaGl0Ym94OnVwZGF0ZSgpCmVuZAoKZnVuY3Rpb24gUGxheWVyOnRocm93X2xldHRlcigpCiAgaWYgc2VsZi5pc19hbGl2ZSB0aGVuCiAgICBzZWxmLnRocm93X2FuaW0gPSAxMAogICAgaWYgc2VsZi5sZXR0ZXJzID4gMCBhbmQgbm90IHNob3dfcmVzdWx0cyB0aGVuCiAgICAgIGxvY2FsIF9uZXdfbGV0dGVyID0gTGV0dGVyKHNlbGYueCwgc2VsZi55IC0gMiwgc2VsZi5mYWNpbmdfZGlyKQogICAgICB0YWJsZS5pbnNlcnQoYWxsX2xldHRlcnMsIF9uZXdfbGV0dGVyKQogICAgICBzZWxmLmxldHRlcnMgPSBzZWxmLmxldHRlcnMgLSAxCiAgICBlbHNlCiAgICAgIC0tVE9ETzogU3Bhd24gc29tZXRoaW5nIG90aGVyIHRoYW4gbGV0dGVyPwogICAgZW5kCiAgZW5kCmVuZAoKZnVuY3Rpb24gUGxheWVyOm1vdmUoeF9kaXIpCiAgaWYgeF9kaXIgPT0gImxlZnQiIHRoZW4KICAgIC0tc2VsZi54ID0gbWF0aC5jbGFtcCg0LCBzZWxmLnggLSBzZWxmLnhfbW92ZV9zcGVlZCwgMTE2KQogICAgc2VsZi5mYWNpbmdfZGlyID0gLTEKICBlbHNlaWYgeF9kaXIgPT0gInJpZ2h0IiB0aGVuCiAgICAtLXNlbGYueCA9IG1hdGguY2xhbXAoNCwgc2VsZi54ICsgc2VsZi54X21vdmVfc3BlZWQsIDExNikKICAgIHNlbGYuZmFjaW5nX2RpciA9IDEKICBlbmQKZW5kCgpmdW5jdGlvbiBQbGF5ZXI6cmVzZXQoKQogIHNlbGYueCA9IDYwCiAgc2VsZi55ID0gNjAKICBzZWxmLmZsdXR0ZXIgPSAzCiAgc2VsZi5mYWNpbmdfZGlyID0gMQplbmQKCnBsYXllckZpbHRlciA9IGZ1bmN0aW9uKGl0ZW0sIG90aGVyKQogIC0taWYgb3RoZXIuaXNDb2luIHRoZW4KICAtLXJldHVybiAnY3Jvc3MnCiAgaWYgb3RoZXIubmFtZSA9PSAiZ3JvdW5kIiB0aGVuCiAgICByZXR1cm4gJ3NsaWRlJwogIGVsc2VpZiBvdGhlci5uYW1lID09ICJjdWJlIiB0aGVuCiAgICByZXR1cm4gJ3NsaWRlJwogIGVsc2VpZiBvdGhlci5uYW1lID09ICJ3YWxsIiB0aGVuCiAgICByZXR1cm4gJ3NsaWRlJwogIGVuZAogIC0tIGVsc2UgcmV0dXJuIG5pbAplbmQK",
+					"AQAAAAAAAAABAAAAnwcAAAAAAACfBwAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					102,
+					1,
+					"reindent",
+					null,
+					"AQAAAMcIAAAAAAAAywgAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAxwgAAAAAAADHCAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					108,
+					1,
+					"reindent",
+					null,
+					"AQAAAJsIAAAAAAAAnwgAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAmwgAAAAAAACbCAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					109,
+					1,
+					"insert",
+					{
+						"characters": "print"
+					},
+					"BgAAAJ8IAAAAAAAAoAgAAAAAAAAAAAAAzAgAAAAAAADMCAAAAAAAAAQAAAAgICAgoAgAAAAAAAChCAAAAAAAAAAAAAChCAAAAAAAAKIIAAAAAAAAAAAAAKIIAAAAAAAAowgAAAAAAAAAAAAAowgAAAAAAACkCAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAnwgAAAAAAACfCAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					110,
+					1,
+					"insert_snippet",
+					{
+						"contents": "($0)"
+					},
+					"AQAAAKQIAAAAAAAApggAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAApAgAAAAAAACkCAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					111,
+					1,
+					"insert_snippet",
+					{
+						"contents": "\"$0\""
+					},
+					"AQAAAKUIAAAAAAAApwgAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAApQgAAAAAAAClCAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					112,
+					1,
+					"insert",
+					{
+						"characters": "p"
+					},
+					"AQAAAKYIAAAAAAAApwgAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAApggAAAAAAACmCAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					115,
+					10,
+					"left_delete",
+					null,
+					"CgAAAKgIAAAAAAAAqAgAAAAAAAABAAAAKacIAAAAAAAApwgAAAAAAAABAAAAIqYIAAAAAAAApggAAAAAAAABAAAAcKUIAAAAAAAApQgAAAAAAAABAAAAIqQIAAAAAAAApAgAAAAAAAABAAAAKKMIAAAAAAAAowgAAAAAAAABAAAAdKIIAAAAAAAAoggAAAAAAAABAAAAbqEIAAAAAAAAoQgAAAAAAAABAAAAaaAIAAAAAAAAoAgAAAAAAAABAAAAcp8IAAAAAAAAnwgAAAAAAAABAAAAcA",
+					"AQAAAAAAAAABAAAAqQgAAAAAAACpCAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					118,
+					1,
+					"left_delete",
+					null,
+					"AQAAAHMIAAAAAAAAcwgAAAAAAABeAAAAICBpZiBsb3ZlLmtleWJvYXJkLmlzRG93bigncmlnaHQnKSB0aGVuCiAgICAKICBlbHNlaWYgbG92ZS5rZXlib2FyZC5pc0Rvd24oJ2xlZnQnKSB0aGVuCgogIGVuZA",
+					"AQAAAAAAAAABAAAA0QgAAAAAAABzCAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					120,
+					1,
+					"lsp_apply_document_edit",
+					{
+						"changes":
+						[
+							{
+								"newText": "Player = {}\nPlayer.__index = Player\n\nlocal player_sheet = love.graphics.newImage(PNG_PATH .. \"bird-sheet.png\")\nlocal death_timer = 0\n\nSignal.register('test123', function()\n  logger.info(\"player picked up Signal\")\nend)\n\n\n-- https://github.com/andriadze/Love2D_Platformer_Example/blob/master/player.lua\n\n\n\n-- TODO: on player reset, chute sprites are not resetting\nfunction Player.new()\n  local p           = setmetatable({}, Player)\n  p.hitbox          = Hitbox(p, 0, 0, 4, 6, 2, 1)\n  p.cubeFilter      = true\n  p.name            = \"player\"\n  p.x               = nil\n  p.y               = nil\n  p.w               = 8\n  p.h               = 8\n  p.dx              = 0\n  p.dy              = 1\n  p.health          = nil\n  p.speed           = 60\n  p.score           = 0\n  p.jumps           = 1\n  p.x_move_speed    = 1\n  p.acceleration    = 10\n  p.health          = nil\n  p.is_alive        = nil\n  p.clothing        = nil\n  p.is_in_tree_zone = false\n  p.is_on_ground    = true\n  p.flutter         = 100\n\n  p.sprites         = {\n    love.graphics.newQuad(0, 0, 10, 10, player_sheet),\n    love.graphics.newQuad(8, 0, 8, 8, player_sheet),\n  }\n\n  p:reset()\n\n  world:add(p, p.x, p.y, p.w, p.h)\n\n  return p\nend\n\nfunction Player:get_cash()\n  return string.format(\"%.2f\", self._cash)\nend\n\nfunction Player:add_score(val)\n  hud.new_score = self.score + val\nend\n\nfunction Player:jump(kind)\n  --self.dy = self.dy - 10\n  if kind == \"jump\" then\n    if self.is_on_ground then\n      self.is_on_ground = false\n      self.dy = self.dy - 11 --math.clamp(0, self.dy - 1, -30)\n    end\n  elseif kind == \"cube\" then\n    shake_duration = 0.05\n    self.is_on_ground = false\n    self.dy = self.dy - 9 --math.clamp(0, self.dy - 1, -30)\n  end\nend\n\nfunction Player:draw()\n  if is_on_screen(self) then\n    love.graphics.draw(player_sheet, self.sprites[1], self.x + 4, self.y, 0, self.facing_dir, 1, 4, 1)\n  end\nend\n\nfunction Player:update(dt)\n  local speed = self.x_move_speed\n  speed = 100\n\n  self.dx = 0\n  --self.dy = 0\n\n  if input:down 'left' then\n    self.dx = -speed * dt\n  end\n  if input:down 'right' then\n    self.dx = speed * dt\n  end\n  if input:pressed 'jump' then\n    self:jump(\"jump\")\n  end\n\n  if love.keyboard.isDown('down') then\n    self.dy = speed * dt\n  elseif love.keyboard.isDown('up') then\n\n  end\n\n  --print(self.dy)\n\n  --if self.dy ~= 0 then\n  --if not self.is_on_ground then\n  --self.dy = self.dy + 1\n  self.dy = math.clamp(-10, self.dy + 1, 2)\n  --end\n\n  --else\n\n  --end\n\n  if self.dx ~= 0 or self.dy ~= 0 then\n    local cols\n    self.x, self.y, cols, cols_len = world:move(self, self.x + self.dx, self.y + self.dy, playerFilter)\n    for i = 1, cols_len do\n      local col = cols[i]\n      if col.other.name == \"ground\" then\n        self.is_on_ground = true\n\n        --print(col.normal.x, col.normal.y)\n      elseif col.other.name == \"cube\" and col.normal.x == 0 and col.normal.y == -1 then -- self:jump()\n        self.is_on_ground = true\n        self:jump(\"cube\")\n        col.other:on_player_bop()\n      end\n      --consolePrint((\"col.other = %s, col.type = %s, col.normal = %d,%d\"):format(col.other, col.type, col.normal.x,\n      -- col.normal.y))\n      --print((\"col.other = %s, col.type = %s, col.normal = %d,%d\"):format(col.other.name, col.type, col.normal.x, col.normal.y))\n    end\n  end\n\n\n\n  if self.is_alive then\n    for m in table.for_each(cubes) do\n      if is_colliding(m, self.hitbox) then\n        m:take_damage()\n        shake_duration = 0.3\n      end\n    end\n  end\n\n\n  if self.y == 150 then\n    death_timer = death_timer + 1\n    if death_timer >= 60 then\n      goto_gameover(\"fell\")\n    end\n  end\n\n  self.hitbox:update()\nend\n\nfunction Player:throw_letter()\n  if self.is_alive then\n    self.throw_anim = 10\n    if self.letters > 0 and not show_results then\n      local _new_letter = Letter(self.x, self.y - 2, self.facing_dir)\n      table.insert(all_letters, _new_letter)\n      self.letters = self.letters - 1\n    else\n      --TODO: Spawn something other than letter?\n    end\n  end\nend\n\nfunction Player:move(x_dir)\n  if x_dir == \"left\" then\n    --self.x = math.clamp(4, self.x - self.x_move_speed, 116)\n    self.facing_dir = -1\n  elseif x_dir == \"right\" then\n    --self.x = math.clamp(4, self.x + self.x_move_speed, 116)\n    self.facing_dir = 1\n  end\nend\n\nfunction Player:reset()\n  self.x = 60\n  self.y = 60\n  self.flutter = 3\n  self.facing_dir = 1\nend\n\nplayerFilter = function(item, other)\n  --if other.isCoin then\n  --return 'cross'\n  if other.name == \"ground\" then\n    return 'slide'\n  elseif other.name == \"cube\" then\n    return 'slide'\n  elseif other.name == \"wall\" then\n    return 'slide'\n  end\n  -- else return nil\nend\n",
+								"range":
+								{
+									"end":
+									{
+										"character": 0,
+										"line": 199
+									},
+									"start":
+									{
+										"character": 0,
+										"line": 0
+									}
+								}
+							}
+						],
+						"process_placeholders": false,
+						"required_view_version": null
+					},
+					"AQAAAAAAAAAAAAAADBIAAAAAAAAMEgAAUGxheWVyID0ge30KUGxheWVyLl9faW5kZXggPSBQbGF5ZXIKCmxvY2FsIHBsYXllcl9zaGVldCA9IGxvdmUuZ3JhcGhpY3MubmV3SW1hZ2UoUE5HX1BBVEggLi4gImJpcmQtc2hlZXQucG5nIikKbG9jYWwgZGVhdGhfdGltZXIgPSAwCgpTaWduYWwucmVnaXN0ZXIoJ3Rlc3QxMjMnLCBmdW5jdGlvbigpCiAgbG9nZ2VyLmluZm8oInBsYXllciBwaWNrZWQgdXAgU2lnbmFsIikKZW5kKQoKCi0tIGh0dHBzOi8vZ2l0aHViLmNvbS9hbmRyaWFkemUvTG92ZTJEX1BsYXRmb3JtZXJfRXhhbXBsZS9ibG9iL21hc3Rlci9wbGF5ZXIubHVhCgoKCi0tIFRPRE86IG9uIHBsYXllciByZXNldCwgY2h1dGUgc3ByaXRlcyBhcmUgbm90IHJlc2V0dGluZwpmdW5jdGlvbiBQbGF5ZXIubmV3KCkKICBsb2NhbCBwICAgICAgICAgICA9IHNldG1ldGF0YWJsZSh7fSwgUGxheWVyKQogIHAuaGl0Ym94ICAgICAgICAgID0gSGl0Ym94KHAsIDAsIDAsIDQsIDYsIDIsIDEpCiAgcC5jdWJlRmlsdGVyICAgICAgPSB0cnVlCiAgcC5uYW1lICAgICAgICAgICAgPSAicGxheWVyIgogIHAueCAgICAgICAgICAgICAgID0gbmlsCiAgcC55ICAgICAgICAgICAgICAgPSBuaWwKICBwLncgICAgICAgICAgICAgICA9IDgKICBwLmggICAgICAgICAgICAgICA9IDgKICBwLmR4ICAgICAgICAgICAgICA9IDAKICBwLmR5ICAgICAgICAgICAgICA9IDEKICBwLmhlYWx0aCAgICAgICAgICA9IG5pbAogIHAuc3BlZWQgICAgICAgICAgID0gNjAKICBwLnNjb3JlICAgICAgICAgICA9IDAKICBwLmp1bXBzICAgICAgICAgICA9IDEKICBwLnhfbW92ZV9zcGVlZCAgICA9IDEKICBwLmFjY2VsZXJhdGlvbiAgICA9IDEwCiAgcC5oZWFsdGggICAgICAgICAgPSBuaWwKICBwLmlzX2FsaXZlICAgICAgICA9IG5pbAogIHAuY2xvdGhpbmcgICAgICAgID0gbmlsCiAgcC5pc19pbl90cmVlX3pvbmUgPSBmYWxzZQogIHAuaXNfb25fZ3JvdW5kICAgID0gdHJ1ZQogIHAuZmx1dHRlciAgICAgICAgID0gMTAwCgogIHAuc3ByaXRlcyAgICAgICAgID0gewogICAgbG92ZS5ncmFwaGljcy5uZXdRdWFkKDAsIDAsIDEwLCAxMCwgcGxheWVyX3NoZWV0KSwKICAgIGxvdmUuZ3JhcGhpY3MubmV3UXVhZCg4LCAwLCA4LCA4LCBwbGF5ZXJfc2hlZXQpLAogIH0KCiAgcDpyZXNldCgpCgogIHdvcmxkOmFkZChwLCBwLngsIHAueSwgcC53LCBwLmgpCgogIHJldHVybiBwCmVuZAoKZnVuY3Rpb24gUGxheWVyOmdldF9jYXNoKCkKICByZXR1cm4gc3RyaW5nLmZvcm1hdCgiJS4yZiIsIHNlbGYuX2Nhc2gpCmVuZAoKZnVuY3Rpb24gUGxheWVyOmFkZF9zY29yZSh2YWwpCiAgaHVkLm5ld19zY29yZSA9IHNlbGYuc2NvcmUgKyB2YWwKZW5kCgpmdW5jdGlvbiBQbGF5ZXI6anVtcChraW5kKQogIC0tc2VsZi5keSA9IHNlbGYuZHkgLSAxMAogIGlmIGtpbmQgPT0gImp1bXAiIHRoZW4KICAgIGlmIHNlbGYuaXNfb25fZ3JvdW5kIHRoZW4KICAgICAgc2VsZi5pc19vbl9ncm91bmQgPSBmYWxzZQogICAgICBzZWxmLmR5ID0gc2VsZi5keSAtIDExIC0tbWF0aC5jbGFtcCgwLCBzZWxmLmR5IC0gMSwgLTMwKQogICAgZW5kCiAgZWxzZWlmIGtpbmQgPT0gImN1YmUiIHRoZW4KICAgIHNoYWtlX2R1cmF0aW9uID0gMC4wNQogICAgc2VsZi5pc19vbl9ncm91bmQgPSBmYWxzZQogICAgc2VsZi5keSA9IHNlbGYuZHkgLSA5IC0tbWF0aC5jbGFtcCgwLCBzZWxmLmR5IC0gMSwgLTMwKQogIGVuZAplbmQKCmZ1bmN0aW9uIFBsYXllcjpkcmF3KCkKICBpZiBpc19vbl9zY3JlZW4oc2VsZikgdGhlbgogICAgbG92ZS5ncmFwaGljcy5kcmF3KHBsYXllcl9zaGVldCwgc2VsZi5zcHJpdGVzWzFdLCBzZWxmLnggKyA0LCBzZWxmLnksIDAsIHNlbGYuZmFjaW5nX2RpciwgMSwgNCwgMSkKICBlbmQKZW5kCgpmdW5jdGlvbiBQbGF5ZXI6dXBkYXRlKGR0KQogIGxvY2FsIHNwZWVkID0gc2VsZi54X21vdmVfc3BlZWQKICBzcGVlZCA9IDEwMAoKICBzZWxmLmR4ID0gMAogIC0tc2VsZi5keSA9IDAKCiAgaWYgaW5wdXQ6ZG93biAnbGVmdCcgdGhlbgogICAgc2VsZi5keCA9IC1zcGVlZCAqIGR0CiAgZW5kCiAgaWYgaW5wdXQ6ZG93biAncmlnaHQnIHRoZW4KICAgIHNlbGYuZHggPSBzcGVlZCAqIGR0CiAgZW5kCiAgaWYgaW5wdXQ6cHJlc3NlZCAnanVtcCcgdGhlbgogICAgc2VsZjpqdW1wKCJqdW1wIikKICBlbmQKCiAgaWYgbG92ZS5rZXlib2FyZC5pc0Rvd24oJ2Rvd24nKSB0aGVuCiAgICBzZWxmLmR5ID0gc3BlZWQgKiBkdAogIGVsc2VpZiBsb3ZlLmtleWJvYXJkLmlzRG93bigndXAnKSB0aGVuCgogIGVuZAoKICAtLXByaW50KHNlbGYuZHkpCgogIC0taWYgc2VsZi5keSB+PSAwIHRoZW4KICAtLWlmIG5vdCBzZWxmLmlzX29uX2dyb3VuZCB0aGVuCiAgLS1zZWxmLmR5ID0gc2VsZi5keSArIDEKICBzZWxmLmR5ID0gbWF0aC5jbGFtcCgtMTAsIHNlbGYuZHkgKyAxLCAyKQogIC0tZW5kCgogIC0tZWxzZQoKICAtLWVuZAoKICBpZiBzZWxmLmR4IH49IDAgb3Igc2VsZi5keSB+PSAwIHRoZW4KICAgIGxvY2FsIGNvbHMKICAgIHNlbGYueCwgc2VsZi55LCBjb2xzLCBjb2xzX2xlbiA9IHdvcmxkOm1vdmUoc2VsZiwgc2VsZi54ICsgc2VsZi5keCwgc2VsZi55ICsgc2VsZi5keSwgcGxheWVyRmlsdGVyKQogICAgZm9yIGkgPSAxLCBjb2xzX2xlbiBkbwogICAgICBsb2NhbCBjb2wgPSBjb2xzW2ldCiAgICAgIGlmIGNvbC5vdGhlci5uYW1lID09ICJncm91bmQiIHRoZW4KICAgICAgICBzZWxmLmlzX29uX2dyb3VuZCA9IHRydWUKCiAgICAgICAgLS1wcmludChjb2wubm9ybWFsLngsIGNvbC5ub3JtYWwueSkKICAgICAgZWxzZWlmIGNvbC5vdGhlci5uYW1lID09ICJjdWJlIiBhbmQgY29sLm5vcm1hbC54ID09IDAgYW5kIGNvbC5ub3JtYWwueSA9PSAtMSB0aGVuIC0tIHNlbGY6anVtcCgpCiAgICAgICAgc2VsZi5pc19vbl9ncm91bmQgPSB0cnVlCiAgICAgICAgc2VsZjpqdW1wKCJjdWJlIikKICAgICAgICBjb2wub3RoZXI6b25fcGxheWVyX2JvcCgpCiAgICAgIGVuZAogICAgICAtLWNvbnNvbGVQcmludCgoImNvbC5vdGhlciA9ICVzLCBjb2wudHlwZSA9ICVzLCBjb2wubm9ybWFsID0gJWQsJWQiKTpmb3JtYXQoY29sLm90aGVyLCBjb2wudHlwZSwgY29sLm5vcm1hbC54LAogICAgICAtLSBjb2wubm9ybWFsLnkpKQogICAgICAtLXByaW50KCgiY29sLm90aGVyID0gJXMsIGNvbC50eXBlID0gJXMsIGNvbC5ub3JtYWwgPSAlZCwlZCIpOmZvcm1hdChjb2wub3RoZXIubmFtZSwgY29sLnR5cGUsIGNvbC5ub3JtYWwueCwgY29sLm5vcm1hbC55KSkKICAgIGVuZAogIGVuZAoKCgogIGlmIHNlbGYuaXNfYWxpdmUgdGhlbgogICAgZm9yIG0gaW4gdGFibGUuZm9yX2VhY2goY3ViZXMpIGRvCiAgICAgIGlmIGlzX2NvbGxpZGluZyhtLCBzZWxmLmhpdGJveCkgdGhlbgogICAgICAgIG06dGFrZV9kYW1hZ2UoKQogICAgICAgIHNoYWtlX2R1cmF0aW9uID0gMC4zCiAgICAgIGVuZAogICAgZW5kCiAgZW5kCgoKICBpZiBzZWxmLnkgPT0gMTUwIHRoZW4KICAgIGRlYXRoX3RpbWVyID0gZGVhdGhfdGltZXIgKyAxCiAgICBpZiBkZWF0aF90aW1lciA+PSA2MCB0aGVuCiAgICAgIGdvdG9fZ2FtZW92ZXIoImZlbGwiKQogICAgZW5kCiAgZW5kCgogIHNlbGYuaGl0Ym94OnVwZGF0ZSgpCmVuZAoKZnVuY3Rpb24gUGxheWVyOnRocm93X2xldHRlcigpCiAgaWYgc2VsZi5pc19hbGl2ZSB0aGVuCiAgICBzZWxmLnRocm93X2FuaW0gPSAxMAogICAgaWYgc2VsZi5sZXR0ZXJzID4gMCBhbmQgbm90IHNob3dfcmVzdWx0cyB0aGVuCiAgICAgIGxvY2FsIF9uZXdfbGV0dGVyID0gTGV0dGVyKHNlbGYueCwgc2VsZi55IC0gMiwgc2VsZi5mYWNpbmdfZGlyKQogICAgICB0YWJsZS5pbnNlcnQoYWxsX2xldHRlcnMsIF9uZXdfbGV0dGVyKQogICAgICBzZWxmLmxldHRlcnMgPSBzZWxmLmxldHRlcnMgLSAxCiAgICBlbHNlCiAgICAgIC0tVE9ETzogU3Bhd24gc29tZXRoaW5nIG90aGVyIHRoYW4gbGV0dGVyPwogICAgZW5kCiAgZW5kCmVuZAoKZnVuY3Rpb24gUGxheWVyOm1vdmUoeF9kaXIpCiAgaWYgeF9kaXIgPT0gImxlZnQiIHRoZW4KICAgIC0tc2VsZi54ID0gbWF0aC5jbGFtcCg0LCBzZWxmLnggLSBzZWxmLnhfbW92ZV9zcGVlZCwgMTE2KQogICAgc2VsZi5mYWNpbmdfZGlyID0gLTEKICBlbHNlaWYgeF9kaXIgPT0gInJpZ2h0IiB0aGVuCiAgICAtLXNlbGYueCA9IG1hdGguY2xhbXAoNCwgc2VsZi54ICsgc2VsZi54X21vdmVfc3BlZWQsIDExNikKICAgIHNlbGYuZmFjaW5nX2RpciA9IDEKICBlbmQKZW5kCgpmdW5jdGlvbiBQbGF5ZXI6cmVzZXQoKQogIHNlbGYueCA9IDYwCiAgc2VsZi55ID0gNjAKICBzZWxmLmZsdXR0ZXIgPSAzCiAgc2VsZi5mYWNpbmdfZGlyID0gMQplbmQKCnBsYXllckZpbHRlciA9IGZ1bmN0aW9uKGl0ZW0sIG90aGVyKQogIC0taWYgb3RoZXIuaXNDb2luIHRoZW4KICAtLXJldHVybiAnY3Jvc3MnCiAgaWYgb3RoZXIubmFtZSA9PSAiZ3JvdW5kIiB0aGVuCiAgICByZXR1cm4gJ3NsaWRlJwogIGVsc2VpZiBvdGhlci5uYW1lID09ICJjdWJlIiB0aGVuCiAgICByZXR1cm4gJ3NsaWRlJwogIGVsc2VpZiBvdGhlci5uYW1lID09ICJ3YWxsIiB0aGVuCiAgICByZXR1cm4gJ3NsaWRlJwogIGVuZAogIC0tIGVsc2UgcmV0dXJuIG5pbAplbmQK",
+					"AQAAAAAAAAABAAAAcwgAAAAAAABzCAAAAAAAAAAAAAAAAPC/"
+				]
+			]
+		},
+		{
+			"file": "main.lua",
+			"settings":
+			{
+				"buffer_size": 14623,
+				"line_ending": "Unix"
+			},
+			"undo_stack":
+			[
+			]
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"prefer",
+				"Preferences: LSP-lua Settings"
+			],
+			[
+				"insl",
+				"Package Control: Install Package"
+			],
+			[
+				"theme",
+				"UI: Select Theme"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/hamcola/Repo/cube-game",
+		"/home/hamcola/Repo/cube-game/src"
+	],
+	"file_history":
+	[
+		"/home/hamcola/Repo/pico8/level-3/src/reticle.lua",
+		"/home/hamcola/Repo/pico8/level-3/src/bullet.lua",
+		"/home/hamcola/Repo/pico8/level-3/src/main.lua",
+		"/home/hamcola/Repo/pico8/level-3/src/recticle.lua",
+		"/home/hamcola/Repo/cube-game/src/functions.lua",
+		"/home/hamcola/Repo/cube-game/src/player.lua",
+		"/home/hamcola/Repo/cube-game/src/ground.lua",
+		"/home/hamcola/Repo/cube-game/main.lua",
+		"/home/hamcola/Repo/cube-game/src/cube.lua",
+		"/home/hamcola/Repo/cube-game/build.sh",
+		"/home/hamcola/Repo/cube-game/src/hud.lua",
+		"/home/hamcola/Repo/pico8/box/box.sublime-project",
+		"/home/hamcola/Repo/pico8/box/player.lua",
+		"/home/hamcola/Repo/pico8/box/main.lua",
+		"/home/hamcola/Repo/pico8/box/cloud.lua",
+		"/home/hamcola/Repo/pico8/box/box.lua",
+		"/home/hamcola/Repo/ice-hop/src/player.lua",
+		"/home/hamcola/Repo/ice-hop/src/cube.lua",
+		"/home/hamcola/Repo/ice-hop/main.lua",
+		"/home/hamcola/Repo/ice-bird/main.lua",
+		"/home/hamcola/.config/sublime-text/Packages/User/LSP-lua.sublime-settings",
+		"/home/hamcola/.config/sublime-text/Packages/LSP-lua/LSP-lua.sublime-settings",
+		"/home/hamcola/Desktop/temp.lua",
+		"/home/hamcola/Repo/test.lua",
+		"/home/hamcola/Repo/down-mail-love2d/main.lua",
+		"/home/hamcola/Downloads/PixelArtRendering.love_FILES/main.lua",
+		"/home/hamcola/.lexaloffle/Picotron/drive/projects/level-3/src/bullet.lua",
+		"/home/hamcola/.lexaloffle/Picotron/drive/projects/level-3/src/game.lua",
+		"/home/hamcola/.lexaloffle/Picotron/drive/projects/level-3/src/recticle.lua",
+		"/home/hamcola/Repo/pico8/down-mail/readme.md",
+		"/home/hamcola/Repo/pico8/down-mail/src/main.lua",
+		"/home/hamcola/Repo/pico8/lick-em/README.md",
+		"/home/hamcola/Repo/pico8/lick-em/src/main.lua",
+		"/home/hamcola/Repo/down-mail-love2d/love_build.sh",
+		"/home/hamcola/Repo/down-mail-love2d/love_win_build.sh",
+		"/home/hamcola/Repo/pico8/lick-em/src/player.lua",
+		"/home/hamcola/Repo/pico8/lick-em/src/human.lua",
+		"/home/hamcola/Repo/pico8/level-3/src/missile.lua",
+		"/home/hamcola/Repo/pico8/level-3/src/building.lua",
+		"/home/hamcola/.lexaloffle/Picotron/drive/projects/picoslots/src/bank.lua",
+		"/home/hamcola/.lexaloffle/Picotron/drive/projects/picoslots/src/stats.lua",
+		"/home/hamcola/.lexaloffle/Picotron/drive/projects/picoslots/src/shop.lua",
+		"/home/hamcola/.lexaloffle/Picotron/drive/projects/picoslots/src/work.lua",
+		"/home/hamcola/.lexaloffle/Picotron/drive/projects/picoslots/src/label.lua",
+		"/home/hamcola/.lexaloffle/Picotron/drive/projects/picoslots/src/game.lua",
+		"/home/hamcola/.lexaloffle/Picotron/drive/projects/level-3/src/building.lua",
+		"/home/hamcola/Repo/pico8/level-3/src/boom.lua",
+		"/home/hamcola/.lexaloffle/Picotron/drive/projects/level-3/kgo/functions.lua",
+		"/home/hamcola/.lexaloffle/Picotron/drive/projects/level-3/src/kgo.lua",
+		"/home/hamcola/.lexaloffle/Picotron/drive/projects/picoslots/src/clock.lua",
+		"/home/hamcola/.lexaloffle/Picotron/drive/projects/level-3/src/player.lua",
+		"/home/hamcola/.lexaloffle/Picotron/drive/projects/level-3/kgo/hitbox.lua",
+		"/home/hamcola/.lexaloffle/Picotron/drive/projects/level-3/src/classic.lua",
+		"/home/hamcola/Repo/pico8/down-mail/src/mailbox.lua",
+		"/home/hamcola/Repo/pico8/down-mail/src/rock.lua",
+		"/home/hamcola/Repo/pico8/down-mail/src/hitbox.lua",
+		"/home/hamcola/Repo/pico8/down-mail/src/dog.lua",
+		"/home/hamcola/Repo/pico8/down-mail/src/player.lua",
+		"/home/hamcola/Repo/pico8/down-mail/src/branch.lua",
+		"/home/hamcola/Repo/pico8/down-mail/src/spawner.lua",
+		"/home/hamcola/Repo/pico8/down-mail/debug.txt",
+		"/home/hamcola/Repo/pico8/down-mail/src/twister.lua"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 149.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"scrollbar_highlights": true,
+		"show_context": true,
+		"use_buffer2": true,
+		"use_gitignore": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "src/player.lua",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4620,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3415,
+								3429
+							]
+						],
+						"settings":
+						{
+							"auto_complete_triggers":
+							[
+								{
+									"characters": "<",
+									"selector": "text.html, text.xml"
+								},
+								{
+									"rhs_empty": true,
+									"selector": "punctuation.accessor"
+								}
+							],
+							"lsp_active": true,
+							"lsp_uri": "file:///home/hamcola/Repo/cube-game/src/player.lua",
+							"show_definitions": false,
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3113.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"stack_multiselect": false,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "main.lua",
+					"selected": true,
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 14623,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3175,
+								3175
+							]
+						],
+						"settings":
+						{
+							"auto_complete_triggers":
+							[
+								{
+									"characters": "<",
+									"selector": "text.html, text.xml"
+								},
+								{
+									"rhs_empty": true,
+									"selector": "punctuation.accessor"
+								}
+							],
+							"lsp_active": true,
+							"lsp_uri": "file:///home/hamcola/Repo/cube-game/main.lua",
+							"show_definitions": false,
+							"syntax": "Packages/Lua/Lua.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2869.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"stack_multiselect": false,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 35.0
+	},
+	"input":
+	{
+		"height": 55.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.LSP Log Panel":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"output.diagnostics":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"output.find_results":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"output.mdpopups":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"pinned_build_system": "",
+	"project": "cube.sublime-project",
+	"replace":
+	{
+		"height": 66.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+		"lsp_show_inlay_hints": false
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 374.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

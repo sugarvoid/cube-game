@@ -4,7 +4,6 @@ ground = {
     y = 113,
     h = 16,
     w = 128,
-    isWall = true,
 }
 
 wall_left = {
@@ -13,7 +12,6 @@ wall_left = {
     y = 113 - 8,
     h = 8,
     w = 8,
-    isWall = true,
 }
 
 wall_right = {
@@ -22,7 +20,6 @@ wall_right = {
     y = 113 - 8,
     h = 8,
     w = 8,
-    isWall = true,
 }
 
 world:add(ground, ground.x, ground.y, ground.w, ground.h)

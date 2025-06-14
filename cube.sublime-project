@@ -1,0 +1,30 @@
+{
+	"folders":
+	[
+		{
+			"path": ".",
+		}
+	],
+	"settings":
+	{
+		"LSP":
+		{
+			"LSP-lua":
+			{
+				"settings":
+				{
+					"Lua.diagnostics.disable":
+					[
+						"lowercase-global"
+					],
+					"Lua.runtime.version": "LuaJIT",
+					"Lua.workspace.library":
+					[
+						"${3rd}/love2d/library",
+						"${3rd}/love2d/library",
+					],
+				},
+			},
+		},
+	},
+}

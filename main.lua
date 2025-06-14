@@ -10,14 +10,14 @@ anim8 = require("lib.anim8")
 bump = require("lib.bump")
 bump_debug = require("lib.bump_debug")
 
-local cols_len = 0 -- how many collisions are happening
-local consoleBuffer = {}
-local consoleBufferSize = 15
-for i = 1, consoleBufferSize do consoleBuffer[i] = "" end
-function consolePrint(msg)
-    table.remove(consoleBuffer, 1)
-    consoleBuffer[consoleBufferSize] = msg
-end
+--local cols_len = 0 -- how many collisions are happening
+-- local consoleBuffer = {}
+-- local consoleBufferSize = 15
+-- for i = 1, consoleBufferSize do consoleBuffer[i] = "" end
+-- function consolePrint(msg)
+--     table.remove(consoleBuffer, 1)
+--     consoleBuffer[consoleBufferSize] = msg
+-- end
 
 Signal = require("lib.signal")
 
@@ -31,11 +31,8 @@ PNG_PATH = "asset/image/"
 SFX_PATH = "asset/sound/"
 
 local GAME_STATES = {
-    title = 1,
-    info = 5,
     game = 6,
-    pause = 9,
-    gameover = 10,
+    pause = 9
 }
 local game_state = nil
 local high_score = 0
@@ -188,9 +185,7 @@ function love.quit()
 end
 
 function love.update(dt)
-    -- dt = math.min(dt, 1 / 60)
     all_clocks:update()
-    --game_clock:update()
     check_inputs()
     if game_state == GAME_STATES.game then
         if shake_duration > 0 then
@@ -214,9 +209,9 @@ function love.update(dt)
     --     update_day_intro()
     -- end
 
-    if game_state == GAME_STATES.day_title then
-        update_day_title()
-    end
+    -- if game_state == GAME_STATES.day_title then
+    --     update_day_title()
+    -- end
 
     --print((collectgarbage('count') / 1024))
     input:update()
@@ -224,20 +219,20 @@ function love.update(dt)
 end
 
 function check_inputs()
-    if game_state == GAME_STATES.title then
-    elseif game_state == GAME_STATES.game then
+    --if game_state == GAME_STATES.title then
+    if game_state == GAME_STATES.game then
         if input:pressed('pause') then
             game_state = GAME_STATES.pause
             is_paused = true
             return
         end
 
-        if input:down 'left' then
-            player:move("left")
-        end
-        if input:down 'right' then
-            player:move("right")
-        end
+        -- if input:down 'left' then
+        --     player:move("left")
+        -- end
+        -- if input:down 'right' then
+        --     player:move("right")
+        -- end
         if input:down 'slam' then
 
         end
@@ -248,12 +243,12 @@ function check_inputs()
             is_paused = false
             return
         end
-    elseif game_state == GAME_STATES.gameover then
-        if input:pressed 'jump' then
-            reset_game()
-            change_gamestate(GAME_STATES.title)
-            return
-        end
+        --elseif game_state == GAME_STATES.gameover then
+        --if input:pressed 'jump' then
+        --reset_game()
+        --change_gamestate(GAME_STATES.title)
+        --return
+        --end
     end
 
     if input:pressed 'quit' then
@@ -262,13 +257,6 @@ function check_inputs()
 end
 
 function change_gamestate(state)
-    if state == GAME_STATES.day_title then
-        day_time = 60 * 2
-        intro_time = 60 * 6
-        -- elseif state == GAMESTATES.day_intro then
-        --     intro_time = 60 * 6
-        -- end
-    end
     menu_index = 1
     game_state = state
 end
@@ -288,29 +276,9 @@ function love.draw()
     love.graphics.rectangle("fill", 0, 0, 128, 128)
     love.graphics.pop()
 
-    if game_state == GAME_STATES.title then
-        draw_title()
-    end
-
-    if game_state == GAME_STATES.info then
-        draw_info()
-    end
-
-    -- if gamestate == GAMESTATES.day_intro then
-    --     draw_intro()
-    -- end
-
-    if game_state == GAME_STATES.day_title then
-        draw_day_title()
-    end
-
     if game_state == GAME_STATES.game then
         draw_game()
         --hud:draw()
-    end
-
-    if game_state == GAME_STATES.gameover then
-        draw_gameover()
     end
 
     --love.graphics.push("all")
@@ -364,49 +332,6 @@ function table.remove_item(tbl, item)
     end
 end
 
-function goto_gameover(reason)
-    shake_duration = 0
-    game_clock:restart()
-    spawner:reset()
-    show_results = false
-    results_clock:restart()
-    save_high_score(player.score)
-    bg_music:stop()
-    if reason == "mailbox" then
-        gameover_img = gameover_imgs.fired
-        gameover_txt = "Mailman fired!"
-        gameover_sub_txt = "Too many crashes"
-    elseif reason == "missed" then
-        gameover_img = gameover_imgs.fired
-        gameover_txt = "Mailman fired!"
-        gameover_sub_txt = ""
-    elseif reason == "fell" then
-        gameover_img = gameover_imgs.hole
-        gameover_txt = "Mailman missing!"
-        gameover_sub_txt = ""
-    elseif reason == "too_high" then
-        gameover_img = gameover_imgs.sky
-        gameover_txt = "Mailman missing!"
-        gameover_sub_txt = ""
-    end
-    change_gamestate(GAME_STATES.gameover)
-
-    print("game over: " .. reason)
-end
-
-function draw_title()
-    love.graphics.push("all")
-    set_color_from_hex(COLORS.BLACK)
-    love.graphics.rectangle("fill", 0, 0, 128, 128)
-    set_color_from_hex(COLORS.WHITE)
-    love.graphics.print("[]", 38 + 5, 52 + (menu_index * 16), 0, 0.4, 0.4)
-    love.graphics.print("Play", 47 + 8, 66, 0, 0.5, 0.5)
-    love.graphics.print("Quit", 47 + 8, 82, 0, 0.5, 0.5)
-
-    love.graphics.print("High Score: " .. high_score, 40, 116, 0, 0.4, 0.4)
-    love.graphics.pop()
-end
-
 function draw_game()
     love.graphics.draw(ground_img, 0, 105)
     for c in table.for_each(cubes) do
@@ -415,8 +340,8 @@ function draw_game()
 
     player:draw()
 
-    drawDebug()
-    drawConsole()
+    --drawDebug()
+    --drawConsole()
     drawBox(ground)
     drawBox(wall_left)
     drawBox(wall_right)
@@ -541,14 +466,14 @@ local groundFilter = function(item, other)
 end
 
 
-function drawDebug()
-    bump_debug.draw(world)
+-- function drawDebug()
+--     bump_debug.draw(world)
 
-    local statistics = ("fps: %d, mem: %dKB, collisions: %d, items: %d"):format(love.timer.getFPS(),
-        collectgarbage("count"), cols_len, world:countItems())
-    love.graphics.setColor(1, 1, 1)
-    love.graphics.printf(statistics, 0, 580, 790, 'right')
-end
+--     local statistics = ("fps: %d\nmem: %dKB\nitems: %d"):format(love.timer.getFPS(),
+--         collectgarbage("count"), world:countItems())
+--     love.graphics.setColor(1, 1, 1)
+--     love.graphics.printf(statistics, 0, 0, 300, 'left', 0, 0.5, 0.5)
+-- end
 
 function drawConsole()
     local str = table.concat(consoleBuffer, "\n")

@@ -6,11 +6,14 @@ local cube_sheet = love.graphics.newImage(PNG_PATH .. "cube-sheet.png")
 
 
 local cube_imgs = {
-    love.graphics.newQuad(0, 0, 8, 8, cube_sheet),
+    love.graphics.newQuad(0, 0, 10, 10, cube_sheet),
+    love.graphics.newQuad(10, 0, 10, 10, cube_sheet),
+    love.graphics.newQuad(20, 0, 10, 10, cube_sheet),
+    love.graphics.newQuad(30, 0, 10, 10, cube_sheet),
+    love.graphics.newQuad(50, 0, 10, 10, cube_sheet),
 }
 
 function Cube:new()
-    self.is_cube = true
     self.name = "cube"
     self.x = 30
     self.y = 20
@@ -73,8 +76,6 @@ local cubeFilter = function(item, other)
     --    return 'cross'
     if other.name == "player" then
         return 'slide'
-    elseif other.isExit then
-        return 'touch'
     elseif other.name == "wall" then
         return 'touch'
     elseif other.name == "cube" then
